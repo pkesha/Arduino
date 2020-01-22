@@ -55,7 +55,7 @@ void loop(){
   GD.cmd_loadimage(0, 0);
   GD.load("wga5.png");
   printJPG();
-
+  
   GD.cmd_loadimage(0, 0);
   GD.load("wga6.png");
   printJPG();
