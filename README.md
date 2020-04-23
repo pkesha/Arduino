@@ -1,2 +1,2 @@
 # Arduino
-Most projects are for driving Displays
+Arduino Projects
