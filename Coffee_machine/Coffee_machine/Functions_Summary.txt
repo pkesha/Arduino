@@ -1,0 +1,92 @@
+/********************************************************************************************************************************
+* Copyright (C) 2013-2018 by James Bowman 
+*********************************************************************************************************************************
+* THANK YOU for purchasing Newhaven Display International  
+* NHD-4.3 -480272FT-CSXV-CTP TFT.
+* We appreciate your support!
+*
+/********************************************************************************************************************************
+Getting Started:
+				This program was design to simulate a Coffee machine. This program has 
+				"pages" which are called based on what button is pressed. These pages 
+				call other small functions that make up the structure of the pages for
+				example, the title and time.
+				
+				page_one(): Is the "main page" with options to navigate to other pages.
+				page_two(): Contains the size options for drink
+				page_three(): Contains settings options for customization
+				page_four(): Contains a page in progress 
+				page_five(): Contains animation of a cup while the drink is being served
+				page_change_time(): Contains a keypad to simulate the option to change the time
+				
+*********************************************************************************************************************************
+*************************************Gameduino Library Functions Used & How To Use It********************************************
+*********************************************************************************************************************************
+Important Functions:
+	  GD.Begin();   /*Initializes the Gameduino 2 object. This has to be called at the beginning,before any other command*/
+	  GD.Clear();   /*Clears the screen*/
+      GD.swap();    /*Tells the graphics system that the drawing is finished*/
+                	/*and it can be made visible on the screen.*/
+
+					
+Change Color /Transparency:
+      GD.ColorRGB(0x000000);  /*Sets the color of the next function to use*/ 
+      GD.ColorA(255);         /*Sets the transparency level, 255 is no transparency and 0 is all transparency*/
+	
+	
+Display Text:                  /* Font#:there is a range of 16-31 options, provide X & Y coordinates */
+      GD.ColorRGB(0x0000ff);   /*BLUE color*/
+      GD.cmd_text(x,y, font# , OPT_CENTER, "TEXT TO DISPLAY"); 
+
+  
+Display Rectangle:             /*When making rectangles the structure must be the following*/
+      GD.ColorRGB(0xff0000);   /*Red color*/
+      GD.Begin(RECTS);         /* To draw rectangles, use Begin(RECTS) and supply opposite corners of the*/
+                               /* rectangle. The order of the two corners does not matter.*/
+      GD.Vertex2ii(x1, y1);    /* Provide first corner*/
+      GD.Vertex2ii(x2, y2);    /* Provide second corner*/
+	  
+
+Display Circle:                /*When making circles the structure must be the following*/
+      GD.ColorRGB(0x00ff00);   /*Green color*/
+      GD.Begin(POINTS);        /* To draw circles, use Begin(POINTS)*/
+      GD.PointSize(16 * 42);   /* point size is 1/16th of a pixel, to cover one pixel at a time, multiply by 16.*/
+	                           /* This circle will be 42 pixels in diameter*/
+      GD.Vertex2ii(x, y);      /* The location of where the circle will be placed.*/
+ 
+ 
+Load and Display Image without BitmapHandle:
+      GD.cmd_loadimage(0, 0); /*tells the GPU to expect an image. It will load it into memory at address 0.*/
+      GD.load("b1.png");      /*Here is were the user can change the photo to their liking , don't forget to change the title*/
+      GD.Begin(BITMAPS);      /*THIS has to be called when ever an image will be written*/
+      GD.Vertex2ii(0,0);      /*The starting location of where the image will be drawn*/
+ 
+ 
+Load and Display Image using BitmapHandle:
+      GD.BitmapHandle(2);       /*Saves the following image as Bitmap 2 which can be useful when there is many images imported*/
+	                            /*The BitmapHandle value must match the value negated on the cmd_loadimage function*/
+	  GD.cmd_loadimage(-2, 0);  /*tells the GPU to expect an image. It will load it into memory.*/
+	  GD.load("cup60.png");     /*Here is were the user can change the photo to their liking , don't forget to change the title*/
+	  GD.Begin(BITMAPS);        /*THIS has to be called when ever an image will be written*/
+	  GD.Vertex2ii(55,135, 2);  /*The starting location of where the image 2 will be drawn */
+ 
+ 
+Rotate an Image:                              /*Example of a 60x74 pixel image rotation at center*/
+      GD.cmd_translate(F16(30),F16(37));      /*translate the image so that (30,37) is moved to (0,0)*/
+      GD.cmd_rotate(a);						  /* rotate the image around (0,0)*/
+      GD.cmd_setmatrix();                     /*translate the image back returning the pixel (0,0) to (30,37)*/
+ 
+
+Keep track of buttons pressed:
+      GD.Tag(TAG);                            /*Initialize a TAG value*/
+      GD.cmd_track(x,y,w,h,TAG);              /*Declare the area to track with a defined TAG value (linking),*/
+ 
+ 
+Know what the input coordinate is:
+             
+      GD.get_inputs();   /*Allows user to read the touch coordinates */         
+      GD.inputs.x;       /*Printing this to Serial Port will show what the x coordinate of x is at the moment: If no touch then it is -32768*/         
+      GD.inputs.y;       /*Printing this to Serial Port will show what the y coordinate of y is at the moment: If no touch then it is -32768*/          
+      GD.inputs.tag      /*Printing this to Serial Port will show what TAG is being touched after it is assigned*/ 
+ 
+ 
